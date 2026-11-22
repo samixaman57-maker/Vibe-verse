@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Vibe Verse - Free online tools for everyday tasks.">
+<title>Vibe Verse | Free Online Tools</title>
+<style>
+:root{--bg:#0b1020;--panel:#131b31;--panel2:#1a2540;--text:#f4f7ff;--muted:#aab5d0;--accent:#8b5cf6;--accent2:#22d3ee;--line:#293653}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 10% 0%,#252052 0,transparent 34%),var(--bg);color:var(--text);min-height:100vh}
+header{padding:26px 18px 18px;max-width:1100px;margin:auto}.brand{display:flex;align-items:center;gap:12px;font-weight:850;font-size:1.45rem}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:white;font-weight:900}
+.hero{padding:28px 0 18px}.hero h1{font-size:clamp(2rem,7vw,3.5rem);line-height:1.05;margin:0 0 12px}.grad{background:linear-gradient(90deg,#c4b5fd,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:650px;margin:0}
+.wrap{max-width:1100px;margin:auto;padding:0 18px 50px}.search{width:100%;padding:15px 17px;border-radius:15px;border:1px solid var(--line);background:#111a2d;color:var(--text);font-size:1rem;outline:none;margin:12px 0 22px}.search:focus,textarea:focus,input:focus{border-color:var(--accent2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}.card{background:linear-gradient(160deg,var(--panel),#10182b);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:0 12px 35px #0002}.card h2{font-size:1.12rem;margin:0 0 6px}.sub{color:var(--muted);font-size:.9rem;margin:0 0 15px}.emoji{font-size:1.45rem;margin-bottom:9px}
+textarea,input{width:100%;background:#0b1325;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;outline:none}textarea{min-height:115px;resize:vertical}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}button{border:0;border-radius:11px;padding:10px 14px;background:linear-gradient(100deg,var(--accent),#6366f1);color:white;font-weight:700;font-size:.92rem;cursor:pointer}button.secondary{background:#25324e;border:1px solid #3a496b}button:active{transform:scale(.98)}
+.output{color:var(--muted);font-size:.9rem;margin-top:10px;min-height:22px}.stat{font-size:.9rem;color:var(--muted);margin-top:9px}.stat b{color:var(--text)}
+.calcdisplay{text-align:right;font-size:1.7rem;margin-bottom:10px}.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.keys button{padding:14px 4px;font-size:1.05rem}
+footer{text-align:center;color:var(--muted);padding:25px 15px;border-top:1px solid var(--line);font-size:.88rem}
+.hidden{display:none!important}.tag{display:inline-block;background:#2a2450;color:#d9ccff;padding:5px 9px;border-radius:30px;font-size:.75rem;margin-bottom:10px}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">V</div> VIBE VERSE</div>
+ <section class="hero"><span class="tag">FREE ONLINE TOOLS</span><h1>Simple tools.<br><span class="grad">Big possibilities.</span></h1><p>Useful free tools for your everyday work. Fast, simple, and ready to use on your phone.</p></section>
+</header>
+<main class="wrap">
+ <input class="search" id="search" placeholder="🔎 Search a tool..." aria-label="Search tools">
+ <div class="grid" id="tools">
+  <section class="card" data-name="word counter text character">
+   <div class="emoji">📝</div><h2>Word & Character Counter</h2><p class="sub">Count words, characters and lines instantly.</p>
+   <textarea id="countText" placeholder="Type or paste your text here..."></textarea>
+   <div class="stat">Words: <b id="words">0</b> · Characters: <b id="chars">0</b> · Lines: <b id="lines">0</b></div>
+  </section>
+  <section class="card" data-name="case converter uppercase lowercase title text">
+   <div class="emoji">🔠</div><h2>Text Case Converter</h2><p class="sub">Change your text style in one tap.</p>
+   <textarea id="caseText" placeholder="Enter text to convert..."></textarea>
+   <div class="row"><button onclick="convert('upper')">UPPERCASE</button><button onclick="convert('lower')">lowercase</button><button onclick="convert('title')">Title Case</button></div>
+   <div class="row"><button class="secondary" onclick="copy('caseText')">Copy result</button></div>
+   <div class="output" id="caseMsg"></div>
+  </section>
+  <section class="card" data-name="password generator secure random">
+   <div class="emoji">🔐</div><h2>Password Generator</h2><p class="sub">Create a random password on your device.</p>
+   <label class="stat">Length: <b id="plen">16</b></label><input id="length" type="range" min="8" max="32" value="16" oninput="plen.textContent=this.value">
+   <div class="row"><button onclick="makePassword()">Generate password</button></div>
+   <input id="password" readonly placeholder="Your password appears here" style="margin-top:12px">
+   <div class="row"><button class="secondary" onclick="copy('password')">Copy password</button></div><div class="output" id="passMsg"></div>
+  </section>
+  <section class="card" data-name="calculator math">
+   <div class="emoji">🧮</div><h2>Calculator</h2><p class="sub">A simple everyday calculator.</p>
+   <input class="calcdisplay" id="display" readonly value="0">
+   <div class="keys">
+    <button class="secondary" onclick="clearCalc()">C</button><button class="secondary" onclick="backCalc()">⌫</button><button class="secondary" onclick="addCalc('%')">%</button><button onclick="addCalc('/')">÷</button>
+    <button class="secondary" onclick="addCalc('7')">7</button><button class="secondary" onclick="addCalc('8')">8</button><button class="secondary" onclick="addCalc('9')">9</button><button onclick="addCalc('*')">×</button>
+    <button class="secondary" onclick="addCalc('4')">4</button><button class="secondary" onclick="addCalc('5')">5</button><button class="secondary" onclick="addCalc('6')">6</button><button onclick="addCalc('-')">−</button>
+    <button class="secondary" onclick="addCalc('1')">1</button><button class="secondary" onclick="addCalc('2')">2</button><button class="secondary" onclick="addCalc('3')">3</button><button onclick="addCalc('+')">+</button>
+    <button class="secondary" onclick="addCalc('0')">0</button><button class="secondary" onclick="addCalc('.')">.</button><button style="grid-column:span 2" onclick="calculate()">=</button>
+   </div><div class="output" id="calcMsg"></div>
+  </section>
+  <section class="card" data-name="image resizer resize photo">
+   <div class="emoji">🖼️</div><h2>Image Resizer</h2><p class="sub">Resize an image in your browser. Your image stays on your device.</p>
+   <input type="file" id="imageFile" accept="image/*">
+   <div class="row"><input id="imgWidth" type="number" min="1" placeholder="Width in pixels" style="flex:1;min-width:120px"><button onclick="resizeImage()">Resize</button></div>
+   <a id="downloadImage" class="output" style="display:block" download="vibe-verse-resized.png"></a><div class="output" id="imageMsg"></div>
+   <canvas id="canvas" class="hidden"></canvas>
+  </section>
+ </div>
+ <p id="noResults" class="output hidden">No tools found. Try another search.</p>
+</main>
+<footer>© <span id="year"></span> Vibe Verse · Free tools for everyone</footer>
+<script>
+const countText=document.getElementById('countText');
+countText.addEventListener('input',()=>{let t=countText.value;document.getElementById('words').textContent=(t.trim()?t.trim().split(/\s+/).length:0);document.getElementById('chars').textContent=t.length;document.getElementById('lines').textContent=t? t.split(/\n/).length:0});
+function convert(type){let el=document.getElementById('caseText');let t=el.value;if(type==='upper')el.value=t.toUpperCase();if(type==='lower')el.value=t.toLowerCase();if(type==='title')el.value=t.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());document.getElementById('caseMsg').textContent='Text converted.'}
+async function copy(id){let el=document.getElementById(id);if(!el.value){return}try{await navigator.clipboard.writeText(el.value);let msg=id==='password'?'passMsg':'caseMsg';document.getElementById(msg).textContent='Copied to clipboard!'}catch(e){el.select();document.execCommand('copy');}}
+function makePassword(){let n=+document.getElementById('length').value,chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*?';let a=new Uint32Array(n);crypto.getRandomValues(a);document.getElementById('password').value=Array.from(a,x=>chars[x%chars.length]).join('');document.getElementById('passMsg').textContent='Password generated on your device.'}
+let expr='';function addCalc(v){if(expr.length<30){expr+=v;document.getElementById('display').value=expr}}function clearCalc(){expr='';document.getElementById('display').value='0';document.getElementById('calcMsg').textContent=''}function backCalc(){expr=expr.slice(0,-1);document.getElementById('display').value=expr||'0'}
+function calculate(){try{if(!/^[0-9+\-*/%.() ]+$/.test(expr))throw 0;let result=Function('"use strict";return ('+expr+')')();if(!Number.isFinite(result))throw 0;expr=String(Number(result.toFixed(10)));document.getElementById('display').value=expr;document.getElementById('calcMsg').textContent='Done'}catch(e){document.getElementById('calcMsg').textContent='Invalid calculation'}}
+function resizeImage(){let f=document.getElementById('imageFile').files[0],w=+document.getElementById('imgWidth').value;if(!f||!w){document.getElementById('imageMsg').textContent='Choose an image and enter a width.';return}let img=new Image(),url=URL.createObjectURL(f);img.onload=()=>{let h=Math.round(img.height*w/img.width),c=document.getElementById('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);c.toBlob(blob=>{let out=URL.createObjectURL(blob),a=document.getElementById('downloadImage');a.href=out;a.textContent='Download resized image ('+w+' × '+h+')';document.getElementById('imageMsg').textContent='Ready!';URL.revokeObjectURL(url)},'image/png')};img.src=url}
+document.getElementById('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase(),shown=0;document.querySelectorAll('#tools .card').forEach(c=>{let ok=c.dataset.name.includes(q)||c.innerText.toLowerCase().includes(q);c.classList.toggle('hidden',!ok);if(ok)shown++});document.getElementById('noResults').classList.toggle('hidden',shown>0)});
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body></html>
